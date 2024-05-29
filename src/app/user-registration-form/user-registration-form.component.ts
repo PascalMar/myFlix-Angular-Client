@@ -14,7 +14,7 @@ import { MatSnackBar } from '@angular/material/snack-bar';
 export class UserRegistrationFormComponent implements OnInit {
 
   /** Input for user data. */
-  @Input() userData = { username: '', password: '', email: '', birthday: '' };
+  @Input() userData = { Username: '', Password: '', Email: '', Birthday: '' };
 
   /**
      * Constructs the UserRegistrationFormComponent.
