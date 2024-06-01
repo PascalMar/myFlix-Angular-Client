@@ -1,0 +1,28 @@
+<mat-toolbar color="primary">
+    <span><h1>MyFlix</h1></span>
+  
+    <!-- This fills the remaining space of the current row -->
+    <span class="fill-remaining-space"></span>
+  
+    <span><button
+        mat-raised-button
+        color="primary"
+        class="button"
+        (click)="openMovies()">
+        Home
+    </button></span>
+    <span><button
+        mat-raised-button
+        color="primary"
+        class="button"
+        (click)="openProfile()">
+        Profile
+    </button></span>
+    <span><button
+        mat-raised-button
+        color="primary"
+        class="button"
+        (click)="logOut()">
+        Log Out
+    </button></span>
+  </mat-toolbar>

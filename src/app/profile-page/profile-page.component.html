@@ -1,0 +1,68 @@
+<app-toolbar></app-toolbar>
+<div>
+  <h1>{{ userData.Username }}'s Profile</h1>
+</div>
+<h3>Your Favorite Movies</h3>
+<div class="fav-movies">
+  <mat-card *ngFor="let movie of FavoriteMovies" class="fav-card">
+    <mat-card-content>
+      <img class="movie-posters" src="{{ movie.ImagePath }}" alt="{{ movie.Title }}" />
+    </mat-card-content>
+  </mat-card>
+  <div *ngIf="!FavoriteMovies || FavoriteMovies.length === 0">
+    <p>You have no favorite movies.</p>
+  </div>
+</div>
+<div class="main-profile-container">
+  <mat-card class="account-form">
+    <mat-card-header>
+      <mat-card-title class="account-form-title">Account Options</mat-card-title>
+    </mat-card-header>
+    <mat-card-content>
+      <form>
+        <div>
+          <div class="form-label">
+            <mat-label>Username</mat-label>
+          </div>
+          <div class="form-content">
+            <mat-form-field>
+              <input matInput [(ngModel)]="userData.Username" placeholder="Username" name="Username" type="text" />
+            </mat-form-field>
+          </div>
+          <div>
+            <mat-label class="form-label">Password</mat-label>
+          </div>
+          <div class="form-content">
+            <mat-form-field>
+              <input matInput [(ngModel)]="userData.Password" placeholder="Password" name="Password" type="password" required />
+            </mat-form-field>
+          </div>
+          <div>
+            <mat-label class="form-label">Email</mat-label>
+          </div>
+          <div class="form-content">
+            <mat-form-field>
+              <input matInput [(ngModel)]="userData.Email" placeholder="Email" name="Email" type="email" />
+            </mat-form-field>
+          </div>
+          <div>
+            <mat-label class="form-label">Birthday</mat-label>
+          </div>
+          <div class="form-content">
+            <mat-form-field>
+              <input matInput [(ngModel)]="userData.Birthday" placeholder="Birthday" name="Birthday" type="date" />
+            </mat-form-field>
+          </div>
+        </div>
+      </form>
+      <mat-card-actions>
+        <button mat-raised-button style="margin-right: 40px;" (click)="updateProfile()" color="primary" type="submit">
+          Update profile
+        </button>
+        <button mat-raised-button (click)="deleteUser()" color="warn">
+          Delete profile
+        </button>
+      </mat-card-actions>
+    </mat-card-content>
+  </mat-card>
+</div>

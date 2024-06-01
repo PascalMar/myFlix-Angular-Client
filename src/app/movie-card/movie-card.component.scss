@@ -1,0 +1,49 @@
+.card-container {
+    display: flex;
+    flex-wrap: wrap;
+    align-content: center;
+    justify-content: center;
+    gap: 30px 20px;
+    position: relative;
+    top: 50px;
+    color: primary;
+    background-color: black;
+ }
+ 
+ .movie-card {
+    display: flex;
+    flex: 1 1 auto;
+    max-width: 480px;
+ }
+ 
+ .title {
+    color: white;
+ }
+ 
+ .image-container {
+    display: flex;
+    align-content: center;
+    justify-content: center;
+ }
+ 
+ .movie-img {
+    padding: 20px;
+    width: 300px;
+    height: 450px;
+ }
+ 
+ .movie-img:hover {
+    cursor: pointer;
+    opacity: 80%;
+ }
+ 
+ .card-actions {
+    display: flex;
+    align-content: center;
+    justify-content: center;
+ }
+ 
+ .btn {
+    margin-left: 2px;
+    margin-right: 2px;
+ }
