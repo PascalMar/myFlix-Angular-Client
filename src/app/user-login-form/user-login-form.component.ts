@@ -26,23 +26,30 @@ export class UserLoginFormComponent implements OnInit {
     this.fetchApiData.userLogin(this.userData).subscribe(res => {
       localStorage.setItem('user', res.user.Username);
       localStorage.setItem('token', res.token);
-      this.router.navigate(["movies"]);
+      this.loadUserData(res.user.Username);  // Load user data including favorite movies
       this.dialogRef.close();
       this.snackBar.open(`Login success, Welcome ${res.user.Username}`, "OK", {
         duration: 2000
       });
-      let user = {
-        id: res.user._id,
-        username: res.user.Username,
-        birthday: res.user.Birthday,
-        email: res.user.Email,
-        token: res.token
-      }
-      localStorage.setItem("user", JSON.stringify(user))
     }, res => {
       this.snackBar.open("Login fail", "OK", {
         duration: 2000
       })
-    })
+    });
+  }
+
+  loadUserData(username: string): void {
+    this.fetchApiData.getUser(username).subscribe(user => {
+      let userData = {
+        id: user._id,
+        username: user.Username,
+        birthday: user.Birthday,
+        email: user.Email,
+        favoriteMovies: user.FavoriteMovies,  // Include favorite movies
+        token: localStorage.getItem('token')
+      };
+      localStorage.setItem("user", JSON.stringify(userData));
+      this.router.navigate(["movies"]);  // Navigate to movies after loading user data
+    });
   }
 }

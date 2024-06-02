@@ -1,4 +1,4 @@
-import { Component, OnInit, Input } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { FetchApiDataService } from '../fetch-api-data.service';
 import { Router } from '@angular/router';
 import { MatSnackBar } from '@angular/material/snack-bar';
@@ -10,10 +10,8 @@ import { MatSnackBar } from '@angular/material/snack-bar';
 })
 export class ProfilePageComponent implements OnInit {
 
-  @Input()
   userData = { Username: '', Password: '', Email: '', Birthday: '', FavoriteMovies: [] };
   FavoriteMovies: any[] = [];
-  movies: any[] = [];
   user: any = {};
 
   constructor(
@@ -27,27 +25,37 @@ export class ProfilePageComponent implements OnInit {
   }
 
   userProfile(): void {
-    this.user = this.fetchData.getUser();
-    if (this.user) {
-      console.log('User data loaded:', this.user);
-      this.userData.Username = this.user.username || '';
-      this.userData.Password = this.user.token || '';
-      this.userData.Email = this.user.email || '';
-      this.userData.Birthday = this.user.birthday || '';
-      this.fetchData.getAllMovies().subscribe(
-        (response) => {
-          console.log('Movies loaded:', response);
-          const favoriteMovies = this.user.FavoriteMovies || [];
-          this.FavoriteMovies = response.filter((movie: any) => favoriteMovies.includes(movie._id));
-          console.log('Favorite movies filtered:', this.FavoriteMovies);
-        },
-        (error) => {
-          console.error('Error loading movies:', error);
-        }
-      );
-    } else {
-      console.error('User data could not be loaded');
-    }
+    const user = JSON.parse(localStorage.getItem('user') || '{}');
+    const username = user.username;
+
+    this.fetchData.getUser(username).subscribe((response) => {
+      this.user = response;
+      if (this.user) {
+        console.log('User data loaded:', this.user);
+        this.userData.Username = this.user.Username || '';
+        this.userData.Password = this.user.Password || '';
+        this.userData.Email = this.user.Email || '';
+        const birthDate = new Date(this.user.Birthday);
+        const formattedBirthDate = birthDate.toISOString().split('T')[0];
+        this.userData.Birthday = formattedBirthDate || '';
+        this.getFavoriteMovies();
+      } else {
+        console.error('User data could not be loaded');
+      }
+    });
+  }
+
+  getFavoriteMovies(): void {
+    this.fetchData.getFavouriteMovies(this.userData.Username).subscribe(
+      (response: any) => {
+
+        this.FavoriteMovies = response.FavoriteMovies || [];
+        console.log('Favorite movies loaded:', this.FavoriteMovies);
+      },
+      (error) => {
+        console.error('Error loading favorite movies:', error);
+      }
+    );
   }
 
   updateProfile(): void {

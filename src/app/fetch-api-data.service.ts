@@ -9,7 +9,7 @@ const apiUrl = 'https://pascals-movie-flix-4a5e7f2df223.herokuapp.com/';
 @Injectable({
   providedIn: 'root'
 })
-export class FetchApiDataService  {
+export class FetchApiDataService {
   // Inject the HttpClient module to the constructor params
   // This will provide HttpClient to the entire class, making it available via this.http
   constructor(private http: HttpClient) {
@@ -86,14 +86,22 @@ export class FetchApiDataService  {
     );
   }
 
-  getUser(): Observable<any> {
-    const user = JSON.parse(localStorage.getItem('user') || '{}');
-    return user;
+  getUser(Username: string): Observable<any> {
+    const token = localStorage.getItem('token');
+    return this.http.get(apiUrl + 'users/' + Username, {
+      headers: new HttpHeaders(
+        {
+          Authorization: 'Bearer ' + token,
+        })
+    }).pipe(
+      map(this.extractResponseData),
+      catchError(this.handleError)
+    );
   }
 
-  getFavouriteMovies(username: string): Observable<any> {
+  getFavouriteMovies(Username: string): Observable<any> {
     const token = localStorage.getItem('token');
-    return this.http.get(apiUrl + 'users/' + username, {
+    return this.http.get(apiUrl + 'users/' + Username, {
       headers: new HttpHeaders(
         {
           Authorization: 'Bearer ' + token,

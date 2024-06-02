@@ -28,28 +28,36 @@ export class MovieCardComponent implements OnInit {
 
   ngOnInit(): void {
     this.getMovies();
-    this.getFavMovies();
   }
 
   getMovies(): void {
     this.fetchApiData.getAllMovies().subscribe((response: any) => {
       this.movies = response;   
-      return this.movies;
+      this.getFavMovies();
     });
   }
 
   /* Favorite Setup */
   getFavMovies(): void {
-    this.user = this.fetchApiData.getUser();
-    this.userData.FavoriteMovies = this.user.FavoriteMovies || [];
-    this.FavoriteMovies = this.userData.FavoriteMovies;
-    console.log('Users fav movies', this.FavoriteMovies);
+    const user = JSON.parse(localStorage.getItem('user') || '{}');
+    const username = user.username;
+
+    this.fetchApiData.getUser(username).subscribe((response) => {
+      this.userData = response;
+      this.FavoriteMovies = this.userData.FavoriteMovies || [];
+      this.markFavoriteMovies();
+      console.log('Users fav movies', this.FavoriteMovies);
+    });
   }
 
-  isFavoriteMovie(movieTitle: string): boolean {
-    const user = JSON.parse(localStorage.getItem('user') || '{}');   
-    const favoriteMovies = user.FavoriteMovies || [];
-    return favoriteMovies.indexOf(movieTitle) >= 0;
+  markFavoriteMovies(): void {
+    this.movies.forEach(movie => {
+      movie.isFavorite = this.FavoriteMovies.includes(movie._id);
+    });
+  }
+
+  isFavoriteMovie(movieId: string): boolean {
+    return this.FavoriteMovies.includes(movieId);
   }
 
   /* Functions for each of the Movie Card Buttons */
@@ -86,8 +94,8 @@ export class MovieCardComponent implements OnInit {
 
   /* Favorite Functions */
   addFavMovies(movie: any): void {
-    this.user = this.fetchApiData.getUser();
-    this.userData.Username = this.user.Username;
+    const user = JSON.parse(localStorage.getItem('user') || '{}');
+    const username = user.username;
     this.fetchApiData.addFavouriteMovies(movie).subscribe((response) => {
       localStorage.setItem('user', JSON.stringify(response));
       this.getFavMovies();
@@ -98,8 +106,8 @@ export class MovieCardComponent implements OnInit {
   }
 
   deleteFavMovies(movie: any): void {
-    this.user = this.fetchApiData.getUser();
-    this.userData.Username = this.user.Username;
+    const user = JSON.parse(localStorage.getItem('user') || '{}');
+    const username = user.username;
     this.fetchApiData.deleteFavouriteMovies(movie).subscribe((response) => {
       localStorage.setItem('user', JSON.stringify(response));
       this.getFavMovies();
