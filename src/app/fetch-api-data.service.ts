@@ -109,7 +109,7 @@ export class FetchApiDataService  {
     const user = JSON.parse(localStorage.getItem('user') || '{}');
     const token = localStorage.getItem('token');
     console.log('in fetch api service: ', movie);
-    return this.http.post(apiUrl + 'users/' + user.username + '/movies/' + movie.title, null, {
+    return this.http.post(apiUrl + 'users/' + user.username + '/movies/' + movie, null, {
       headers: new HttpHeaders(
         {
           Authorization: 'Bearer ' + token,
