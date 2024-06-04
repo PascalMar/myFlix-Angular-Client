@@ -2,17 +2,6 @@
 <div>
   <h1>{{ userData.Username }}'s Profile</h1>
 </div>
-<h3>Your Favorite Movies</h3>
-<div class="fav-movies">
-  <mat-card *ngFor="let movie of FavoriteMovies" class="fav-card">
-    <mat-card-content>
-      <img class="movie-posters" src="{{ movie.ImagePath }}" alt="{{ movie.Title }}" />
-    </mat-card-content>
-  </mat-card>
-  <div *ngIf="!FavoriteMovies || FavoriteMovies.length === 0">
-    <p>You have no favorite movies.</p>
-  </div>
-</div>
 <div class="main-profile-container">
   <mat-card class="account-form">
     <mat-card-header>
@@ -34,7 +23,8 @@
           </div>
           <div class="form-content">
             <mat-form-field>
-              <input matInput [(ngModel)]="userData.Password" placeholder="Password" name="Password" type="password" required />
+              <input matInput [(ngModel)]="userData.Password" placeholder="Password" name="Password" type="password"
+                required />
             </mat-form-field>
           </div>
           <div>
@@ -65,5 +55,14 @@
       </mat-card-actions>
     </mat-card-content>
   </mat-card>
-  
+</div>
+
+<div class="content" *ngIf="user.FavoriteMovies.length > 0">
+  <h2>Favorite Movies</h2>
+  <div class="favorite-movies-container">
+    <!-- Display favorite movies -->
+    <div>
+      <app-movie-card [isFromFav]="true"></app-movie-card>
+    </div>
+  </div>
 </div>

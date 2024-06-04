@@ -12,7 +12,9 @@ export class ProfilePageComponent implements OnInit {
 
   userData = { Username: '', Password: '', Email: '', Birthday: '', FavoriteMovies: [] };
   FavoriteMovies: any[] = [];
+  movies: any[] = [];
   user: any = {};
+
 
   constructor(
     public fetchData: FetchApiDataService,
@@ -26,7 +28,7 @@ export class ProfilePageComponent implements OnInit {
 
   userProfile(): void {
     const user = JSON.parse(localStorage.getItem('user') || '{}');
-    const username = user.username;
+    const username = user.Username;
 
     this.fetchData.getUser(username).subscribe((response) => {
       this.user = response;
@@ -38,7 +40,7 @@ export class ProfilePageComponent implements OnInit {
         const birthDate = new Date(this.user.Birthday);
         const formattedBirthDate = birthDate.toISOString().split('T')[0];
         this.userData.Birthday = formattedBirthDate || '';
-        this.getFavoriteMovies();
+        this.getFavoriteMovies();   
       } else {
         console.error('User data could not be loaded');
       }
@@ -48,9 +50,8 @@ export class ProfilePageComponent implements OnInit {
   getFavoriteMovies(): void {
     this.fetchData.getFavouriteMovies(this.userData.Username).subscribe(
       (response: any) => {
-
         this.FavoriteMovies = response.FavoriteMovies || [];
-        console.log('Favorite movies loaded:', this.FavoriteMovies);
+        console.log('Favorite movies loaded:', this.FavoriteMovies);        
       },
       (error) => {
         console.error('Error loading favorite movies:', error);

@@ -117,7 +117,7 @@ export class FetchApiDataService {
     const user = JSON.parse(localStorage.getItem('user') || '{}');
     const token = localStorage.getItem('token');
     console.log('in fetch api service: ', movie);
-    return this.http.post(apiUrl + 'users/' + user.username + '/movies/' + movie, null, {
+    return this.http.post(apiUrl + 'users/' + user.Username + '/movies/' + movie, {}, {
       headers: new HttpHeaders(
         {
           Authorization: 'Bearer ' + token,
@@ -158,8 +158,8 @@ export class FetchApiDataService {
   deleteFavouriteMovies(movie: any): Observable<any> {
     const user = JSON.parse(localStorage.getItem('user') || '{}');
     const token = localStorage.getItem('token');
-    console.log('in fetch api service: ', movie.title);
-    return this.http.delete(apiUrl + 'users/' + user.username + '/movies/' + movie.title, {
+    console.log('in fetch api service: ', movie);
+    return this.http.delete(apiUrl + 'users/' + user.Username + '/movies/' + movie, {
       headers: new HttpHeaders(
         {
           Authorization: 'Bearer ' + token,

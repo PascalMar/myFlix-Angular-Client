@@ -1,4 +1,4 @@
-<app-toolbar></app-toolbar>
+<app-toolbar  *ngIf="!isFromFav"></app-toolbar>
 <div class="card-container">
     <mat-card *ngFor="let movie of movies;" class="movie-card">
         <mat-card-header class="header">
