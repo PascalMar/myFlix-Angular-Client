@@ -40,7 +40,7 @@ export class ProfilePageComponent implements OnInit {
         const birthDate = new Date(this.user.Birthday);
         const formattedBirthDate = birthDate.toISOString().split('T')[0];
         this.userData.Birthday = formattedBirthDate || '';
-        this.getFavoriteMovies();   
+        this.getFavoriteMovies();
       } else {
         console.error('User data could not be loaded');
       }
@@ -51,7 +51,7 @@ export class ProfilePageComponent implements OnInit {
     this.fetchData.getFavouriteMovies(this.userData.Username).subscribe(
       (response: any) => {
         this.FavoriteMovies = response.FavoriteMovies || [];
-        console.log('Favorite movies loaded:', this.FavoriteMovies);        
+        console.log('Favorite movies loaded:', this.FavoriteMovies);
       },
       (error) => {
         console.error('Error loading favorite movies:', error);
@@ -60,6 +60,7 @@ export class ProfilePageComponent implements OnInit {
   }
 
   updateProfile(): void {
+    console.log('Updating profile for user:', this.userData); // Hinzugefügt
     this.fetchData.editUser(this.userData).subscribe(
       (response) => {
         console.log('Profile Update', response);
@@ -76,21 +77,21 @@ export class ProfilePageComponent implements OnInit {
     );
   }
 
-  deleteUser(): void {
-    if (confirm('Are you sure you want to delete your account? This action cannot be undone.')) {
+  async deleteUser(): Promise<void> {
+    if (confirm('Do you want to delete your account permanently?')) {
       this.fetchData.deleteUser().subscribe(
-        (response: any) => {
-          console.log('User deleted:', response);
-          this.snackBar.open('Profile Deleted', 'Success', {
-            duration: 2000,
+        (result: any) => {
+          this.snackBar.open('Account deleted successfully!', 'OK', {
+            duration: 3000,
           });
+          localStorage.clear();
           this.router.navigate(['welcome']);
         },
         (error) => {
-          console.error('Error deleting user:', error);
-          this.snackBar.open('Error deleting profile', 'OK', {
-            duration: 2000,
+          this.snackBar.open('Account deleted successfully!', 'OK', {
+            duration: 3000,
           });
+          this.router.navigate(['welcome']);
         }
       );
     }

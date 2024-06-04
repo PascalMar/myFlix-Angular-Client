@@ -57,12 +57,12 @@
   </mat-card>
 </div>
 
-<div class="content" *ngIf="user.FavoriteMovies.length > 0">
+<div class="content">
   <h2>Favorite Movies</h2>
   <div class="favorite-movies-container">
     <!-- Display favorite movies -->
     <div>
-      <app-movie-card [isFromFav]="true"></app-movie-card>
+      <app-movie-card></app-movie-card>
     </div>
   </div>
 </div>

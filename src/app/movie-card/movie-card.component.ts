@@ -33,8 +33,7 @@ export class MovieCardComponent implements OnInit {
   getMovies(): void {
     this.fetchApiData.getAllMovies().subscribe((response: any) => {
       this.movies = response;
-      if (this.isFromFav) this.getFavMovies()
-      return this.movies;
+      this.getFavMovies();
     });
   }
 
@@ -88,7 +87,6 @@ export class MovieCardComponent implements OnInit {
   /* Favorite Functions */
   addFavMovies(movie: any): void {
     const user = JSON.parse(localStorage.getItem('user') || '{}');
-    // const username = user.username;
     this.fetchApiData.addFavouriteMovies(movie).subscribe((response) => {
       localStorage.setItem('user', JSON.stringify(response));
       this.getFavMovies();
@@ -99,8 +97,6 @@ export class MovieCardComponent implements OnInit {
   }
 
   deleteFavMovies(movie: any): void {
-    // const user = JSON.parse(localStorage.getItem('user') || '{}');
-    // const username = user.username;
     this.fetchApiData.deleteFavouriteMovies(movie).subscribe((response) => {
       localStorage.setItem('user', JSON.stringify(response));
       this.getFavMovies();
