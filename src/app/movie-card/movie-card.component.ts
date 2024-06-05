@@ -34,6 +34,8 @@ export class MovieCardComponent implements OnInit {
     this.fetchApiData.getAllMovies().subscribe((response: any) => {
       this.movies = response;
       this.getFavMovies();
+      console.log(this.movies);
+      
     });
   }
 
@@ -43,7 +45,11 @@ export class MovieCardComponent implements OnInit {
     const username = user.Username;
 
     this.fetchApiData.getUser(username).subscribe((response) => {
-      this.FavoriteMovies = response.FavoriteMovies || [];
+      this.FavoriteMovies = response.FavoriteMovies
+      const favMovies = this.movies.filter((movie: any) => response.FavoriteMovies.includes(movie.Title))
+      if (this.isFromFav) this.movies = favMovies
+      console.log(this.FavoriteMovies);
+      
     });
   }
 
