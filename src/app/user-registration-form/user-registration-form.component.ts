@@ -17,34 +17,36 @@ export class UserRegistrationFormComponent implements OnInit {
   @Input() userData = { Username: '', Password: '', Email: '', Birthday: '' };
 
   /**
-     * Constructs the UserRegistrationFormComponent.
-     * @param fetchApiData - The service for fetching API data.
-     * @param dialogRef - The dialog reference for the user registration form.
-     * @param snackBar - The snack bar service for displaying notifications.
-     */
+   * Constructs the UserRegistrationFormComponent.
+   * @param fetchApiData - The service for fetching API data.
+   * @param dialogRef - The dialog reference for the user registration form.
+   * @param snackBar - The snack bar service for displaying notifications.
+   */
   constructor(
-    public fetchApiData: FetchApiDataService,           //The service for fetching API data.
-    public dialogRef: MatDialogRef<UserRegistrationFormComponent>,       //The reference to the dialog.
-    public snackBar: MatSnackBar) { }    //The service for showing snack bar notifications.
+    public fetchApiData: FetchApiDataService,           // The service for fetching API data.
+    public dialogRef: MatDialogRef<UserRegistrationFormComponent>,       // The reference to the dialog.
+    public snackBar: MatSnackBar) { }    // The service for showing snack bar notifications.
 
   /** Lifecycle hook called after component initialization. */
   ngOnInit(): void {
   }
 
   /**
-     * Registers a new user.
-     */
+   * Registers a new user.
+   * Upon successful registration, closes the dialog and displays a success message.
+   * Upon failure, displays an error message.
+   */
   registerUser(): void {
     this.fetchApiData.userRegistration(this.userData).subscribe((result) => {
       // Logic for a successful user registration goes here! (To be implemented)
       this.dialogRef.close(); // This will close the modal on success!
       console.log(result);
-      this.snackBar.open("user registered successfully!", 'OK', {
+      this.snackBar.open("User registered successfully!", 'OK', {
         duration: 2000
       });
-    }, (result) => {
-      console.log(result);
-      this.snackBar.open(result, 'OK', {
+    }, (error) => {
+      console.error(error);
+      this.snackBar.open("User registration failed. Please try again.", 'OK', {
         duration: 2000
       });
     });

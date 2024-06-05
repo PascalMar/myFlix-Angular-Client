@@ -3,6 +3,9 @@ import { FetchApiDataService } from '../fetch-api-data.service';
 import { Router } from '@angular/router';
 import { MatSnackBar } from '@angular/material/snack-bar';
 
+/**
+ * Represents the Profile Page Component responsible for managing user profile.
+ */
 @Component({
   selector: 'app-profile-page',
   templateUrl: './profile-page.component.html',
@@ -10,22 +13,33 @@ import { MatSnackBar } from '@angular/material/snack-bar';
 })
 export class ProfilePageComponent implements OnInit {
 
+  /** User data */
   userData = { Username: '', Password: '', Email: '', Birthday: '', FavoriteMovies: [] };
+  /** List of favorite movies */
   FavoriteMovies: any[] = [];
+  /** List of movies */
   movies: any[] = [];
+  /** User information */
   user: any = {};
 
-
+  /**
+   * Constructs a new ProfilePageComponent.
+   * @param fetchData - The service responsible for fetching API data.
+   * @param snackBar - Angular Material snack bar service.
+   * @param router - Angular router service.
+   */
   constructor(
     public fetchData: FetchApiDataService,
     public snackBar: MatSnackBar,
     private router: Router
   ) { }
 
+  /** Lifecycle hook that is called after data-bound properties of a directive are initialized. */
   ngOnInit(): void {
     this.userProfile();
   }
 
+  /** Fetches user profile data. */
   userProfile(): void {
     const user = JSON.parse(localStorage.getItem('user') || '{}');
     const username = user.Username;
@@ -47,6 +61,7 @@ export class ProfilePageComponent implements OnInit {
     });
   }
 
+  /** Fetches favorite movies of the current user. */
   getFavoriteMovies(): void {
     this.fetchData.getFavouriteMovies(this.userData.Username).subscribe(
       (response: any) => {
@@ -59,8 +74,9 @@ export class ProfilePageComponent implements OnInit {
     );
   }
 
+  /** Updates user profile data. */
   updateProfile(): void {
-    console.log('Updating profile for user:', this.userData); // Hinzugefügt
+    console.log('Updating profile for user:', this.userData);
     this.fetchData.editUser(this.userData).subscribe(
       (response) => {
         console.log('Profile Update', response);
@@ -77,6 +93,7 @@ export class ProfilePageComponent implements OnInit {
     );
   }
 
+  /** Deletes user account. */
   async deleteUser(): Promise<void> {
     if (confirm('Do you want to delete your account permanently?')) {
       this.fetchData.deleteUser().subscribe(
