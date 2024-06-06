@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { UserLoginFormComponent } from '../user-login-form/user-login-form.component';
-import { UserRegistrationFormComponent } from '../user-registration-form/registration.component';
+import { RegistrationComponent } from '../registration-form/registration.component';
 import { MatDialog } from '@angular/material/dialog';
 
 /**
@@ -24,7 +24,7 @@ export class WelcomePageComponent implements OnInit {
 
   /** Opens the user registration dialog. */
   openUserRegistrationDialog(): void {
-    this.dialog.open(UserRegistrationFormComponent, {
+    this.dialog.open(RegistrationComponent, {
       width: '280px'
     });
   }

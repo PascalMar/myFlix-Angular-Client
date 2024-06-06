@@ -1,7 +1,7 @@
 import { Component, OnInit, Input } from '@angular/core';
 import { FetchApiDataService } from '../fetch-api-data.service';
 import { MatDialogRef } from '@angular/material/dialog';
-import { UserRegistrationFormComponent } from '../user-registration-form/registration.component';
+import { RegistrationComponent } from '../registration-form/registration.component';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { Router } from '@angular/router';
 
@@ -26,7 +26,7 @@ export class UserLoginFormComponent implements OnInit {
    */
   constructor(
     public fetchApiData: FetchApiDataService,
-    public dialogRef: MatDialogRef<UserRegistrationFormComponent>,
+    public dialogRef: MatDialogRef<RegistrationComponent>,
     public snackBar: MatSnackBar,
     public router: Router
   ) { }

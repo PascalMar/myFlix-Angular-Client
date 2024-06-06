@@ -11,7 +11,7 @@ import { MatSnackBar } from '@angular/material/snack-bar';
   templateUrl: './registration.component.html',
   styleUrls: ['./registration.component.scss']
 })
-export class UserRegistrationFormComponent implements OnInit {
+export class RegistrationComponent implements OnInit {
 
   /** Input for user data. */
   @Input() userData = { Username: '', Password: '', Email: '', Birthday: '' };
@@ -24,7 +24,7 @@ export class UserRegistrationFormComponent implements OnInit {
    */
   constructor(
     public fetchApiData: FetchApiDataService,           // The service for fetching API data.
-    public dialogRef: MatDialogRef<UserRegistrationFormComponent>,       // The reference to the dialog.
+    public dialogRef: MatDialogRef<RegistrationComponent>,       // The reference to the dialog.
     public snackBar: MatSnackBar) { }    // The service for showing snack bar notifications.
 
   /** Lifecycle hook called after component initialization. */
